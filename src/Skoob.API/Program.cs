@@ -15,7 +15,7 @@ builder.Services.AddOpenApi();
 
 // 2. Configuração do Banco de Dados
 builder.Services.AddDbContext<SkoobDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // 3. Registrar Repositórios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
