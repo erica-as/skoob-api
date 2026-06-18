@@ -1,0 +1,53 @@
+## =======================================================================
+## GITIGNORE PARÁ O PROJETO SKOOBAPI (.NET + POSTGRESQL)
+## =======================================================================
+
+# Pastas de Compilação e Artefatos Finais (Essenciais)
+# Bloqueia binários específicos da máquina local para não quebrarem o GitHub Actions
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# Cache e logs de execução do compilador .NET
+*.json
+!appsettings.json
+!appsettings.Development.json
+project.lock.json
+project.fragment.lock.json
+*.AssemblyInfoInputs.cache
+*.assets.cache
+*.nuget.dgspec.json
+*.GeneratedMSBuildEditorConfig.editorconfig
+
+# Arquivos temporários e de diagnóstico do Coverlet (Testes de Cobertura)
+CoverletSourceRootsMapping_*
+.msCoverageSourceRootsMapping_*
+
+# Configurações do ambiente local (User-specific files)
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Arquivos gerados pelas IDEs (JetBrains Rider e VS Code)
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sln.iml
+
+# Arquivos do Sistema Operacional (macOS e Windows)
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Logs de erro e dumps de memória
+*.log
+*.stackdump
+
+# Evitar subir credenciais ou strings de conexão confidenciais externas
+.env
