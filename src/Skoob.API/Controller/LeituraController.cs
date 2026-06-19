@@ -31,18 +31,4 @@ public class LeituraController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-
-    [HttpGet("usuarios/{usuarioId}/meta-atingida")]
-    public IActionResult VerificarMeta(int usuarioId)
-    {
-        try
-        {
-            var atingiu = _leituraService.VerificarSeMetaAnualFoiAtingida(usuarioId);
-            return Ok(new { UsuarioId = usuarioId, MetaAtingida = atingiu });
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-    }
 }

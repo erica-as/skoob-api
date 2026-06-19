@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Skoob.API.Models;
+using Skoob.API.DTOs;
 using Skoob.API.Services.Interfaces; 
 
 namespace Skoob.API.Controllers;
@@ -31,8 +32,15 @@ public class LivroController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Criar([FromBody] Livro livro)
+    public async Task<IActionResult> Criar([FromBody] CriarLivroDto dto)
     {
+        var livro = new Livro
+        {
+            Titulo = dto.Titulo,
+            Autor = dto.Autor,
+            TotalPaginas = dto.TotalPaginas
+        };
+        
         var sucesso = await _service.CriarLivros(livro);
         
         if (!sucesso)

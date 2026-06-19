@@ -48,30 +48,4 @@ public class LeituraService : ILeituraService
 
         _usuarioRepository.Atualizar(usuario);
     }
-
-    public double CalcularPorcentagemConclusao(Livro livro, int paginaAtual)
-    {
-        if (livro == null) throw new ArgumentNullException(nameof(livro));
-        if (paginaAtual < 0 || paginaAtual > livro.TotalPaginas) 
-            throw new ArgumentException("Página atual inválida.");
-
-        if (livro.TotalPaginas == 0) return 0;
-
-        return Math.Round(((double)paginaAtual / livro.TotalPaginas) * 100, 2);
-    }
-
-    public bool VerificarSeMetaAnualFoiAtingida(int usuarioId)
-    {
-        var usuario = _usuarioRepository.ObterComEstante(usuarioId) 
-                      ?? throw new KeyNotFoundException("Usuário não encontrado.");
-
-        int anoAtual = DateTime.UtcNow.Year;
-        
-        int livrosLidosNoAno = usuario.Estante.Count(e => 
-            e.Status == StatusLeitura.Lido && 
-            e.DataTermino.HasValue && 
-            e.DataTermino.Value.Year == anoAtual);
-
-        return livrosLidosNoAno >= usuario.MetaLeituraAnual;
-    }
 }
