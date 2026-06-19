@@ -14,6 +14,7 @@ public class EstanteService : IEstanteService
         _usuarioRepository = usuarioRepository;
         _livroRepository = livroRepository;
     }
+    
 
     public void MudarStatusLivro(int usuarioId, int livroId, StatusLeitura novoStatus)
     {

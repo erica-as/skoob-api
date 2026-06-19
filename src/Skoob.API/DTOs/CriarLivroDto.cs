@@ -1,9 +1,9 @@
-namespace Skoob.API.Models;
+namespace Skoob.API.DTOs;
 
-public class Livro
+public class CriarLivroDto
 {
-    public int Id { get; set; }
     public string Titulo { get; set; } = string.Empty;
     public string Autor { get; set; } = string.Empty;
+    public string Isbn { get; set; } = string.Empty;
     public int TotalPaginas { get; set; }
 }

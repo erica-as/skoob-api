@@ -9,8 +9,8 @@ public class UsuarioRepository : IUsuarioRepository
 
     public IEnumerable<Usuario> ObterTodos() => _usuarios;
 
-    public Usuario? ObterPorId(int id) => throw new NotImplementedException("Use ObterComEstante para o fluxo do Skoob.");
-
+    public Usuario? ObterPorId(int id) => _usuarios.FirstOrDefault(u => u.Id == id);
+    
     public Usuario? ObterComEstante(int usuarioId)
     {
         return _usuarios.FirstOrDefault(u => u.Id == usuarioId);
