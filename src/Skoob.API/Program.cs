@@ -30,12 +30,12 @@ var app = builder.Build();
 // 5. Configuração do Pipeline de Requisições (Middlewares)
 if (app.Environment.IsDevelopment())
 {
-    // Gera o endpoint /openapi/v1.json
-    app.MapOpenApi(); 
-    
-    app.UseSwaggerUI(options => 
+    app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/openapi/v1.json", "Skoob API v1");
+        options.RoutePrefix = "swagger";    
     });
 }
 

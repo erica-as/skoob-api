@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Skoob.API.Services;
-using Skoob.API.Services.Interfaces; // Mudar para o namespace das interfaces
+using Skoob.API.Services.Interfaces; 
 
 namespace Skoob.API.Controllers;
 
