@@ -29,16 +29,13 @@ builder.Services.AddScoped<ILivroService, LivroService>();
 var app = builder.Build();
 
 // 5. Configuração do Pipeline de Requisições (Middlewares)
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+app.MapOpenApi();
 
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/openapi/v1.json", "Skoob API v1");
-        options.RoutePrefix = "swagger";    
-    });
-}
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/openapi/v1.json", "Skoob API v1");
+    options.RoutePrefix = "swagger";    
+});
 
 app.UseHttpsRedirection();
 app.UseAuthorization(); 
