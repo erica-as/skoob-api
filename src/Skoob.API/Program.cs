@@ -10,6 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. Serviços Base da API
 builder.Services.AddControllers();
 
+//Consfiguração de Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Permite qualquer origem (ideal para APIs públicas escolares)
+            .AllowAnyMethod()   // Permite GET, POST, PUT, DELETE, etc.
+            .AllowAnyHeader();  // Permite qualquer cabeçalho HTTP
+    });
+});
+
 // Mantém o gerador do arquivo openapi.json do próprio .NET
 builder.Services.AddOpenApi(); 
 
