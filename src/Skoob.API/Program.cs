@@ -22,7 +22,6 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 
 // 4. Registrar as Services
-builder.Services.AddScoped<ILeituraService, LeituraService>();
 builder.Services.AddScoped<IEstanteService, EstanteService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ILivroService, LivroService>();

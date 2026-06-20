@@ -1,6 +1,6 @@
 using Skoob.API.Models;
 using Skoob.API.Repositories.Interfaces;
-using Skoob.API.Services.Interfaces; // Adicione o namespace
+using Skoob.API.Services.Interfaces;
 
 namespace Skoob.API.Services;
 
@@ -47,14 +47,9 @@ public class EstanteService : IEstanteService
 
         estanteItem.Status = novoStatus;
 
-        if (novoStatus == StatusLeitura.Lendo && estanteItem.DataInicio == null)
-        {
-            estanteItem.DataInicio = DateTime.UtcNow;
-        }
-        else if (novoStatus == StatusLeitura.Lido && livro != null)
+        if (novoStatus == StatusLeitura.Lido && livro != null)
         {
             estanteItem.PaginaAtual = livro.TotalPaginas;
-            estanteItem.DataTermino = DateTime.UtcNow;
         }
 
         _usuarioRepository.Atualizar(usuario);

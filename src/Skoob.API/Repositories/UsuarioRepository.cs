@@ -28,6 +28,9 @@ public class UsuarioRepository : IUsuarioRepository
     {
         return _context.Usuarios
             .Include(u => u.Estante)
+            .ThenInclude(e => e.Livro) 
+            .Include(u => u.Estante)
+            .ThenInclude(e => e.Avaliacao) 
             .FirstOrDefault(u => u.Id == usuarioId);
     }
     
