@@ -6,4 +6,5 @@ namespace Skoob.API.Repositories.Interfaces;
 public interface IUsuarioRepository : IRepository<Usuario>
 {
     Usuario? ObterComEstante(int usuarioId);
+    Usuario? ObterPorEmail(string email);
 }

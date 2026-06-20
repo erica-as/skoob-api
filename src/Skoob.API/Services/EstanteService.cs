@@ -15,6 +15,25 @@ public class EstanteService : IEstanteService
         _livroRepository = livroRepository;
     }
     
+    public void AdicionarLivroEstante(int usuarioId, int livroId, StatusLeitura status)
+    {
+        var usuario = _usuarioRepository.ObterComEstante(usuarioId) 
+                      ?? throw new KeyNotFoundException("Usuário não encontrado.");
+
+        if (usuario.Estante.Any(e => e.LivroId == livroId))
+            throw new ArgumentException("Livro já está na estante.");
+
+        var novoItem = new EstanteLivro
+        {
+            UsuarioId = usuarioId,
+            LivroId = livroId,
+            Status = status,
+            PaginaAtual = 0
+        };
+
+        usuario.Estante.Add(novoItem);
+        _usuarioRepository.Atualizar(usuario);
+    }
 
     public void MudarStatusLivro(int usuarioId, int livroId, StatusLeitura novoStatus)
     {
@@ -60,5 +79,13 @@ public class EstanteService : IEstanteService
         };
 
         _usuarioRepository.Atualizar(usuario);
+    }
+    
+    public IEnumerable<EstanteLivro> ObterLivrosDaEstante(int usuarioId)
+    {
+        var usuario = _usuarioRepository.ObterComEstante(usuarioId)
+                      ?? throw new KeyNotFoundException("Usuário não encontrado.");
+
+        return usuario.Estante;
     }
 }

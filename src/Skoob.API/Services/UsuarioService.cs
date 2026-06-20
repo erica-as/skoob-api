@@ -15,6 +15,12 @@ public class UsuarioService : IUsuarioService
 
     public Usuario CriarUsuario(string nome, string email, int metaLeitura)
     {
+        var usuarioExistente = _usuarioRepository.ObterPorEmail(email);
+        if (usuarioExistente != null)
+        {
+            throw new ArgumentException("O e-mail informado já está cadastrado.");
+        }
+
         var novoUsuario = new Usuario
         {
             Nome = nome,
@@ -29,5 +35,10 @@ public class UsuarioService : IUsuarioService
     public Usuario? ObterUsuarioPorId(int id)
     {
         return _usuarioRepository.ObterComEstante(id);
+    }
+
+    public IEnumerable<Usuario> ObterTodosUsuarios() 
+    {
+        return _usuarioRepository.ObterTodos();
     }
 }

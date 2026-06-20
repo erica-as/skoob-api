@@ -6,4 +6,5 @@ public interface IUsuarioService
 {
     Usuario CriarUsuario(string nome, string email, int metaLeitura);
     Usuario? ObterUsuarioPorId(int id);
+    IEnumerable<Usuario> ObterTodosUsuarios();
 }

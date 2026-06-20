@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Skoob.API.DTOs;
 using Skoob.API.Models;
-using Skoob.API.Repositories.Interfaces;
 using Skoob.API.Services.Interfaces; 
 
 namespace Skoob.API.Controllers;
@@ -10,42 +9,33 @@ namespace Skoob.API.Controllers;
 [Route("api/[controller]")]
 public class EstanteController : ControllerBase
 {
-    // Depende da Interface agora
     private readonly IEstanteService _estanteService;
-    private readonly IUsuarioRepository _usuarioRepository;
 
-    public EstanteController(IEstanteService estanteService, IUsuarioRepository usuarioRepository)
+    public EstanteController(IEstanteService estanteService)
     {
         _estanteService = estanteService;
-        _usuarioRepository = usuarioRepository;
     }
 
-    [HttpPost("{usuarioId}/livros")]
-    public IActionResult AdicionarLivro(int usuarioId, [FromBody] AdicionarLivroDto dto)
+    [HttpPost("{usuarioId:int}/livros")]
+    public IActionResult AdicionarLivro([FromRoute] int usuarioId, [FromBody] AdicionarLivroDto dto)
     {
-        var usuario = _usuarioRepository.ObterComEstante(usuarioId);
-        if (usuario == null) return NotFound("Usuário não encontrado.");
-
-        if (usuario.Estante.Any(e => e.LivroId == dto.LivroId))
-            return BadRequest("Livro já está na estante.");
-
-        var novoItem = new EstanteLivro
+        try
         {
-            Id = usuario.Estante.Count + 1,
-            UsuarioId = usuarioId,
-            LivroId = dto.LivroId,
-            Status = dto.Status,
-            PaginaAtual = 0
-        };
-
-        usuario.Estante.Add(novoItem);
-        _usuarioRepository.Atualizar(usuario);
-
-        return Ok(novoItem);
+            _estanteService.AdicionarLivroEstante(usuarioId, dto.LivroId, dto.Status);
+            return Ok(new { mensagem = "Livro adicionado à estante com sucesso." });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message); 
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message); 
+        }
     }
 
-    [HttpPut("{usuarioId}/livros/{livroId}/status")]
-    public IActionResult AlterarStatus(int usuarioId, int livroId, [FromQuery] StatusLeitura novoStatus)
+    [HttpPut("{usuarioId:int}/livros/{livroId:int}/status")]
+    public IActionResult AlterarStatus([FromRoute] int usuarioId, [FromRoute] int livroId, [FromQuery] StatusLeitura novoStatus)
     {
         try
         {
@@ -58,8 +48,8 @@ public class EstanteController : ControllerBase
         }
     }
 
-    [HttpPost("{usuarioId}/livros/{livroId}/avaliar")]
-    public IActionResult AvaliarLivro(int usuarioId, int livroId, [FromQuery] int nota, [FromBody] string resenha)
+    [HttpPost("{usuarioId:int}/livros/{livroId:int}/avaliar")]
+    public IActionResult AvaliarLivro([FromRoute] int usuarioId, [FromRoute] int livroId, [FromQuery] int nota, [FromBody] string resenha)
     {
         try
         {
@@ -73,6 +63,20 @@ public class EstanteController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+    
+    [HttpGet("{usuarioId:int}/livros")]
+    public IActionResult ObterLivrosEstante([FromRoute] int usuarioId)
+    {
+        try
+        {
+            var livrosEstante = _estanteService.ObterLivrosDaEstante(usuarioId);
+            return Ok(livrosEstante);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { mensagem = ex.Message }); 
         }
     }
 }

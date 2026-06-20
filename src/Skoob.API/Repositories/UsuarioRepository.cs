@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Skoob.API.Data;
 using Skoob.API.Models;
 using Skoob.API.Repositories.Interfaces;
 
@@ -5,31 +7,44 @@ namespace Skoob.API.Repositories;
 
 public class UsuarioRepository : IUsuarioRepository
 {
-    private static readonly List<Usuario> _usuarios = new();
+    private readonly SkoobDbContext _context;
 
-    public IEnumerable<Usuario> ObterTodos() => _usuarios;
+    public UsuarioRepository(SkoobDbContext context)
+    {
+        _context = context;
+    }
 
-    public Usuario? ObterPorId(int id) => _usuarios.FirstOrDefault(u => u.Id == id);
+    public IEnumerable<Usuario> ObterTodos()
+    {
+        return _context.Usuarios.ToList();
+    }
+
+    public Usuario? ObterPorId(int id)
+    {
+        return _context.Usuarios.FirstOrDefault(u => u.Id == id);
+    }
     
     public Usuario? ObterComEstante(int usuarioId)
     {
-        return _usuarios.FirstOrDefault(u => u.Id == usuarioId);
+        return _context.Usuarios
+            .Include(u => u.Estante)
+            .FirstOrDefault(u => u.Id == usuarioId);
+    }
+    
+    public Usuario? ObterPorEmail(string email)
+    {
+        return _context.Usuarios.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
     }
 
     public void Adicionar(Usuario entidade)
     {
-        if (entidade.Id == 0)
-            entidade.Id = _usuarios.Count + 1;
-            
-        _usuarios.Add(entidade);
+        _context.Usuarios.Add(entidade);
+        _context.SaveChanges(); 
     }
 
     public void Atualizar(Usuario entidade)
     {
-        var index = _usuarios.FindIndex(u => u.Id == entidade.Id);
-        if (index != -1)
-        {
-            _usuarios[index] = entidade;
-        }
+        _context.Usuarios.Update(entidade);
+        _context.SaveChanges(); 
     }
 }
