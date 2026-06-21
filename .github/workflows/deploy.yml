@@ -1,6 +1,5 @@
 name: Pipeline de CI/CD - Skoob API
 
-# O pipeline será disparado sempre que houver um commit ou pull request na ramificação principal (main)
 on:
   push:
     branches: [ main ]
