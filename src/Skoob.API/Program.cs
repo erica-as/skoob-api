@@ -39,9 +39,10 @@ builder.Services.AddScoped<ILivroService, LivroService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+
 // 5. Configuração do Pipeline de Requisições (Middlewares)
 app.MapOpenApi();
-
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/openapi/v1.json", "Skoob API v1");
