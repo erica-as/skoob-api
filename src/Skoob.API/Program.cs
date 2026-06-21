@@ -7,10 +7,10 @@ using Skoob.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Serviços Base da API
+// Serviços Base da API
 builder.Services.AddControllers();
 
-//Consfiguração de Cors
+// Consfiguração de Cors
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -22,26 +22,35 @@ builder.Services.AddCors(options =>
 });
 
 // Mantém o gerador do arquivo openapi.json do próprio .NET
-builder.Services.AddOpenApi(); 
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+        document.Servers.Clear(); 
+        return Task.CompletedTask;
+    });
+});
 
-// 2. Configuração do Banco de Dados
+// Configuração do Banco de Dados
 builder.Services.AddDbContext<SkoobDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 3. Registrar Repositórios
+// Registrar Repositórios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 
-// 4. Registrar as Services
+// Registrar as Services
 builder.Services.AddScoped<IEstanteService, EstanteService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ILivroService, LivroService>();
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
 app.UseCors("AllowAll");
 
-// 5. Configuração do Pipeline de Requisições (Middlewares)
+// Mapeamento da documentação
 app.MapOpenApi();
 app.UseSwaggerUI(options =>
 {
