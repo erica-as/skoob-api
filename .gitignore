@@ -51,3 +51,7 @@ ehthumbs.db
 
 # Evitar subir credenciais ou strings de conexão confidenciais externas
 .env
+
+# Configurações locais da aplicação (contêm dados sensíveis)
+**/appsettings.json
+**/appsettings.Development.json

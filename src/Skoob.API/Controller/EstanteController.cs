@@ -17,6 +17,11 @@ public class EstanteController : ControllerBase
     }
 
     [HttpPost("{usuarioId:int}/livros")]
+    [EndpointSummary("Adiciona um livro à estante pessoal do usuário")]
+    [EndpointDescription("Associa um livro previamente cadastrado no catálogo à estante de um usuário específico informando o status inicial de leitura.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult AdicionarLivro([FromRoute] int usuarioId, [FromBody] AdicionarLivroDto dto)
     {
         try
@@ -35,6 +40,10 @@ public class EstanteController : ControllerBase
     }
 
     [HttpPut("{usuarioId:int}/livros/{livroId:int}/status")]
+    [EndpointSummary("Altera o status de leitura de um livro")]
+    [EndpointDescription("Atualiza a situação de um livro na estante (ex: Lendo, Quero Ler, Lido). Caso o novo status seja 'Lido', a página atual é automaticamente sincronizada com o total de páginas do livro.")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult AlterarStatus([FromRoute] int usuarioId, [FromRoute] int livroId, [FromQuery] StatusLeitura novoStatus)
     {
         try
@@ -49,6 +58,11 @@ public class EstanteController : ControllerBase
     }
 
     [HttpPost("{usuarioId:int}/livros/{livroId:int}/avaliar")]
+    [EndpointSummary("Adiciona uma nota e resenha para um livro lido")]
+    [EndpointDescription("Permite que o usuário atribua uma nota estritamente entre 1 e 5 e escreva um texto descritivo (resenha) sobre a obra avaliada.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult AvaliarLivro([FromRoute] int usuarioId, [FromRoute] int livroId, [FromQuery] int nota, [FromBody] string resenha)
     {
         try
@@ -67,6 +81,10 @@ public class EstanteController : ControllerBase
     }
     
     [HttpGet("{usuarioId:int}/livros")]
+    [EndpointSummary("Lista todos os livros contidos na estante do usuário")]
+    [EndpointDescription("Recupera a coleção de livros associados ao usuário, trazendo detalhes individuais como paginação atual, status de leitura e avaliações aplicadas.")]
+    [ProducesResponseType(typeof(IEnumerable<EstanteLivro>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult ObterLivrosEstante([FromRoute] int usuarioId)
     {
         try
