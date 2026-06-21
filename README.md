@@ -47,8 +47,6 @@ dotnet tool install --global dotnet-ef
 
 ```
 
-
-
 ---
 
 ## Configuração Inicial
@@ -117,15 +115,14 @@ docker build -t skoob-api .
 docker run -d -p 5143:8080 --name skoob-container -e ASPNETCORE_ENVIRONMENT=Development skoob-api
 ```
 
-
+---
 
 ### Acessando o Swagger UI
-
-Por padrão, em ambiente de desenvolvimento, a aplicação ativa o middleware do Swagger. Podes aceder através do teu navegador no endereço:
+A documentação interativa da API está configurada para funcionar em todos os ambientes e utiliza caminhos relativos para evitar erros de bloqueio de conteúdo misto (CORS) em servidores HTTPS. Acesse em:
 
 ```text
-http://localhost:5143/swagger
-
+https://skoob-api-9vp7.onrender.com/swagger
+(Para testes locais usando os comandos padrão, use https://localhost:5143/swagger ou http://localhost:5143/swagger).
 ```
 
 ---
