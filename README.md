@@ -1,6 +1,6 @@
 Para que possas simplesmente copiar o conteúdo de forma limpa e direta, sem formatações duplicadas ou blocos aninhados que quebram o botão de cópia do chat, o conteúdo completo do teu arquivo `README.md` atualizado está disponível no bloco de texto abaixo:
 
-# 📚 Skoob API
+# Skoob API - Simulação de Rede Social para Leitores
 
 A **Skoob API** é uma aplicação backend desenvolvida em **.NET 10** que simula as funcionalidades de uma rede social para leitores (baseada no Skoob). O sistema permite o gerenciamento completo de utilizadores, livros, estantes virtuais, históricos de leitura e avaliações.
 
